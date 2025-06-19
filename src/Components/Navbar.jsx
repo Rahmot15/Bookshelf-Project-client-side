@@ -149,7 +149,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <Link to={"/"} className="flex items-center">
+          <Link to={"/"}>
             <div className="flex items-center gap-2">
               <FaBookOpen size={35} className="text-amber-600" />
               <h1 className="md:text-3xl text-2xl bg-gradient-to-r from-amber-800 to-amber-600 bg-clip-text  text-transparent font-bold md:block hidden">
