@@ -1,4 +1,4 @@
-import React, { use} from "react";
+import React, { use, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 import { AuthContext } from "../Provider/AuthContext";
@@ -9,10 +9,17 @@ import { FaBookOpen } from "react-icons/fa";
 import { auth } from "../Firebase/firebase.init";
 
 const Navbar = () => {
-  
+  const [theme, setTheme] = useState("black");
   const { user, signOutUser } = use(AuthContext);
 
-  
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const handleToggle = () => {
+    const newTheme = theme === "light" ? "black" : "light";
+    setTheme(newTheme);
+  };
 
   const handleLogout = () => {
     signOutUser(auth)
@@ -192,7 +199,16 @@ const Navbar = () => {
             </Link>
           )}
 
-          
+          {/* Theme change */}
+          <div>
+            <button onClick={handleToggle}>
+              {theme === "black" ? (
+                <MdOutlineDarkMode size={45} className="text-black" />
+              ) : (
+                <MdDarkMode size={45} className="text-white" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
