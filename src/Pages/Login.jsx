@@ -65,7 +65,7 @@ const Login = () => {
         style={{ backgroundImage: `url('/gradient.svg')` }}
       >
         <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="card border-gray-800 border  w-lg  shrink-0 shadow-2xl">
+          <div className="card border-gray-800 border md:w-lg shrink-0 shadow-2xl">
             <div className="card-body px-10">
               <div className="flex items-center justify-center">
                 <Lottie
@@ -74,13 +74,13 @@ const Login = () => {
                   loop={true}
                 ></Lottie>
               </div>
-              <h1 className="text-5xl font-bold mb-5 text-center">
+              <h1 className="text-5xl text-white font-bold mb-5 text-center">
                 Login now!
               </h1>
 
               <form onSubmit={handleLogin} className="fieldset">
                 {/* Email field */}
-                <label className="label">Email</label>
+                <label className="label text-gray-400">Email</label>
                 <label className="input input-lg w-full validator">
                   <svg
                     className="h-[1em] opacity-50"
@@ -109,7 +109,7 @@ const Login = () => {
                   Enter valid email address
                 </div>
                 {/* Password field */}
-                <label className="label">Password</label>
+                <label className="label text-gray-400">Password</label>
                 <label className="input input-lg w-full  validator">
                   <svg
                     className="h-[1em] opacity-50"
@@ -151,12 +151,12 @@ const Login = () => {
                   At least one uppercase letter
                 </p>
                 <div>
-                  <a className="link link-hover">Forgot password?</a>
+                  <a className="link link-hover text-gray-300">Forgot password?</a>
                 </div>
                 <button type="submit" className="btn btn-info mt-4">
                   Login
                 </button>
-                <p className="text-2xl text-center fon -mb-2">or</p>
+                <p className="text-2xl text-center fon -mb-2 text-gray-200">or</p>
                 <button
                   onClick={handleGoogle}
                   type="button"
@@ -165,7 +165,7 @@ const Login = () => {
                   {" "}
                   <FcGoogle size={25} /> Login with google{" "}
                 </button>
-                <p className="text-lg text-center mt-2">
+                <p className="text-lg text-center mt-2 text-gray-200">
                   Don't have an account?{" "}
                   <Link
                     className="text-blue-600 hover:text-blue-700"
@@ -178,7 +178,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="text-center lg:text-left">
+          <div className="lg:block hidden">
             <Lottie animationData={loginBg} loop={true}></Lottie>
           </div>
         </div>

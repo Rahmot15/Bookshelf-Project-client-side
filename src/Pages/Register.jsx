@@ -64,8 +64,8 @@ const Register = () => {
         className="hero  min-h-[calc(100vh-242px)] "
         style={{ backgroundImage: `url('/gradient.svg')` }}
       >
-        <div className="hero-content flex-col lg:flex-row-reverse gap-20 md:ml-30">
-          <div className="text-center lg:text-left">
+        <div className="hero-content flex-col lg:flex-row-reverse lg:gap-20">
+          <div className=" lg:block hidden ">
             <Lottie
               style={{ width: "500px" }}
               animationData={register}
@@ -73,9 +73,9 @@ const Register = () => {
             ></Lottie>
           </div>
 
-          <div className="card border-gray-800 border  w-lg  shrink-0 shadow-2xl">
-            <div className="card-body px-10">
-              <div className="flex items-center justify-center">
+          <div className="card border-gray-800 border  md:w-lg  shrink-0 shadow-2xl">
+            <div className="card-body ">
+              <div className="flex items-center  justify-center">
                 <Lottie
                   style={{ width: "150px" }}
                   animationData={registerAnimation}
@@ -178,7 +178,7 @@ const Register = () => {
                 <button type="submit" className="btn btn-info mt-1">
                   Login
                 </button>
-                <p className="text-2xl text-center fon -mb-2">or</p>
+                <p className="text-2xl text-center fon -mb-2 text-gray-200">or</p>
                 <button
                   onClick={handleGoogle}
                   type="button"
@@ -187,7 +187,7 @@ const Register = () => {
                   {" "}
                   <FcGoogle size={25} /> Login with google{" "}
                 </button>
-                <p className="text-lg text-center mt-2">
+                <p className="text-lg text-center mt-2 text-gray-200">
                   Already have an account?{" "}
                   <Link
                     className="text-blue-600 hover:text-blue-700"
