@@ -25,6 +25,7 @@ const AddBook = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
+    data.upvote = Number(data.upvote) || 0;
     console.log(data);
     e.target.reset();
 
@@ -222,6 +223,7 @@ const AddBook = () => {
                 </label>
                 <input
                   type="email"
+                  name="email"
                   value={user?.email || ""}
                   readOnly
                   className="w-full px-4 py-4 bg-gray-700/50 border border-gray-600/50 rounded-xl text-gray-300 backdrop-blur-sm"
@@ -236,6 +238,7 @@ const AddBook = () => {
                 </label>
                 <input
                   type="text"
+                  name="name"
                   value={user?.displayName || ""}
                   readOnly
                   className="w-full px-4 py-4 bg-gray-700/50 border border-gray-600/50 rounded-xl text-gray-300  backdrop-blur-sm"
