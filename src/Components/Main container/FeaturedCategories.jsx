@@ -25,7 +25,7 @@ const categories = [
 const FeaturedCategories = () => {
   return (
     <div className="w-11/12 mx-auto  md:my-50 my-16">
-      <h2 className="md:text-5xl text-xl font-bold bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent flex items-center justify-center gap-3 mb-8">
+      <h2 className="md:text-5xl text-xl font-bold bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent flex items-center justify-center gap-3 md:mb-16 mb-5">
         <Star size={40} className=" text-amber-400" />
         Featured Categories
         <BookOpen size={40} className="mt-3 text-purple-400" />

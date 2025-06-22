@@ -3,7 +3,7 @@ import React from "react";
 
 const TestimonialSection = () => {
   return (
-    <div className="mt-20 relative  bg-gradient-to-br from-cyan-400 via-blue-400 to-blue-500 overflow-hidden">
+    <div className=" relative  bg-gradient-to-br from-cyan-400 via-blue-400 to-blue-500 overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-10 right-10 w-2 h-2 bg-pink-400 rounded-full opacity-80"></div>
       <div className="absolute top-1/4 left-8 w-3 h-3 bg-yellow-300 rounded-full opacity-70"></div>
