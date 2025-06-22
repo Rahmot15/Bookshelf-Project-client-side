@@ -3,16 +3,15 @@ import register from "../Lottie/Register.json";
 import registerAnimation from "../Lottie/registerAnimation.json";
 import Lottie from "lottie-react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthContext";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 const Register = () => {
   const { createUser, signInGoogle } = use(AuthContext);
-  const location = useLocation();
+
   const navigate = useNavigate();
-  const from = location.state || "/";
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -33,7 +32,7 @@ const Register = () => {
           timer: 1500,
         });
 
-        navigate(from);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +51,7 @@ const Register = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -179,7 +178,9 @@ const Register = () => {
                 <button type="submit" className="btn btn-info mt-1">
                   Login
                 </button>
-                <p className="text-2xl text-center fon -mb-2 text-gray-200">or</p>
+                <p className="text-2xl text-center fon -mb-2 text-gray-200">
+                  or
+                </p>
                 <button
                   onClick={handleGoogle}
                   type="button"

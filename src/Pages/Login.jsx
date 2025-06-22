@@ -13,7 +13,8 @@ const Login = () => {
   const { signInUser, signInGoogle } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state || "/";
+  const from = location.state?.from?.pathname || "/";
+  
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate(from);
+        navigate(from, {replace: true});
       })
       .catch((error) => {
         console.log(error);
@@ -50,7 +51,7 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate(from);
+        navigate(from, {replace: true});
       })
       .catch((error) => {
         console.log(error);

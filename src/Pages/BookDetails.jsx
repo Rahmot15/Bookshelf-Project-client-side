@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext,  useState } from "react";
 import {
   ArrowLeft,
   User,
@@ -11,23 +11,24 @@ import {
   ThumbsUp,
 } from "lucide-react";
 import { AuthContext } from "../Provider/AuthContext";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import axios from "axios";
 
 const BookDetails = () => {
   const book = useLoaderData();
   const { user } = useContext(AuthContext);
 
-  
-
   const [upvotes, setUpvotes] = useState(Number(book.upvote || 0));
+  const [reviews, setReviews] = useState([]);
 
   const isOwnBook = user?.email === book?.email;
+
+  
 
   const handleUpvote = async () => {
     if (user && !isOwnBook) {
       try {
-        setUpvotes((prev) => prev + 1); // UI instantly updates
+        setUpvotes((prev) => prev + 1); // UI updates instantly
         await axios.patch(`http://localhost:5000/books/${book._id}/upvote`);
       } catch (error) {
         console.error("Upvote failed", error);
@@ -54,9 +55,11 @@ const BookDetails = () => {
         {/* Header */}
         <div className="bg-black/20 backdrop-blur-xl border-b border-gray-700/50">
           <div className="max-w-7xl mx-auto px-4 py-4">
-            <button className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-300">
-              <ArrowLeft size={20} />
-              <span className="font-medium">Back to Bookshelf</span>
+            <button className=" text-gray-300 hover:text-white transition-colors duration-300">
+              <Link to={"/Bookshelf"} className="flex items-center gap-2">
+                <ArrowLeft size={20} />
+                <span className="font-medium">Back to Bookshelf</span>
+              </Link>
             </button>
           </div>
         </div>
@@ -107,7 +110,7 @@ const BookDetails = () => {
                 </div>
 
                 <p className="text-2xl text-gray-300 mb-6 font-medium">
-                   {book.book_author}
+                  {book.book_author}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
@@ -134,7 +137,7 @@ const BookDetails = () => {
                     <div>
                       <p className="text-gray-400 text-sm">Reviews</p>
                       <p className="text-white font-semibold">
-                       
+                        {reviews.length}
                       </p>
                     </div>
                   </div>
@@ -171,7 +174,6 @@ const BookDetails = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
