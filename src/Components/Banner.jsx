@@ -166,6 +166,16 @@ const Banner = () => {
               >
                 {current.summary}
               </motion.div>
+              <motion.button
+                custom={2}
+                variants={textVariants}
+                initial="hidden"
+                animate="visible"
+                className="btn btn-secondary mt-4"
+              >
+                Reed More
+              </motion.button>
+
             </div>
 
             {/* Image Right */}
