@@ -7,6 +7,7 @@ import { Tooltip } from "react-tooltip";
 
 import { FaBookOpen } from "react-icons/fa";
 import { auth } from "../Firebase/firebase.init";
+import { BookOpen } from "lucide-react";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("black");
@@ -151,10 +152,16 @@ const Navbar = () => {
 
           <Link to={"/"}>
             <div className="flex items-center gap-2">
-              <FaBookOpen size={35} className="text-amber-600" />
+              <FaBookOpen
+                size={35}
+                className="text-amber-600 md:block hidden"
+              />
               <h1 className="md:text-3xl text-2xl bg-gradient-to-r from-amber-800 to-amber-600 bg-clip-text  text-transparent font-bold md:block hidden">
                 BookStacker
               </h1>
+            </div>
+            <div className="p-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl shadow-lg md:hidden block">
+              <BookOpen size={25} className="text-white" />
             </div>
           </Link>
         </div>
