@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BookCard from "../BookCard";
 import { BookOpen } from "lucide-react";
+import { motion } from "framer-motion";
 
 const PopularBooks = () => {
   const [books, setBooks] = useState([]);
@@ -13,8 +14,24 @@ const PopularBooks = () => {
       .catch(() => setBooks([]));
   }, []);
 
-  // Top 9 books by upvote
-  const popularBooks = books.sort((a, b) => b.upvote - a.upvote).slice(0, 9);
+  const popularBooks = books
+    .sort((a, b) => b.upvote - a.upvote)
+    .slice(0, 9);
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        delay: i * 0.08,
+        type: "spring",
+        stiffness: 80,
+        damping: 12,
+      },
+    }),
+  };
 
   return (
     <div className="w-10/12 mx-auto my-24">
@@ -29,8 +46,17 @@ const PopularBooks = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {popularBooks.map((book) => (
-          <BookCard key={book._id} book={book} />
+        {popularBooks.map((book, i) => (
+          <motion.div
+            key={book._id}
+            custom={i}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }} // amount: 0.2 mane 20% card visible holei animate hobe
+          >
+            <BookCard book={book} />
+          </motion.div>
         ))}
       </div>
     </div>
