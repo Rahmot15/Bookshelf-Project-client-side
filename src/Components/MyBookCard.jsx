@@ -1,9 +1,15 @@
+import { BookOpen, SquarePen, Star, Trash2, User } from "lucide-react";
 import React from "react";
 
-import { Star, User, BookOpen, ArrowRight } from "lucide-react";
-import { Link } from "react-router";
+const MyBookCard = ({ book }) => {
 
-const BookCard = ({ book }) => {
+  const handleDelete = () => {
+    
+  }
+  const handleEdit = () => {
+
+  }
+
   return (
     <div className="group relative bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200/60 dark:border-gray-700/60 overflow-hidden backdrop-blur-sm">
       {/* Decorative gradient overlay */}
@@ -33,13 +39,18 @@ const BookCard = ({ book }) => {
           </div>
         </div>
       </div>
-
-      {/* Content Section */}
       <div className="relative px-6 pb-6">
-        {/* Title */}
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300">
-          {book.book_title}
-        </h3>
+        {/* Title  and delete*/}
+        <div className="flex justify-between">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300">
+            {book.book_title}
+          </h3>
+          <Trash2
+            onClick={handleDelete}
+            size={30}
+            className="text-gray-600 mt-5 dark:text-gray-400 dark:hover:text-red-600 transition-colors duration-300"
+          />
+        </div>
 
         {/* Author */}
         <div className="flex items-center gap-2 mb-4 text-gray-600 dark:text-gray-400">
@@ -61,34 +72,24 @@ const BookCard = ({ book }) => {
             </span>
           </div>
 
-          {/* Book icon */}
-          <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg group-hover:bg-amber-100 dark:group-hover:bg-amber-900/30 transition-colors duration-300">
-            <BookOpen
-              size={16}
-              className="text-gray-600 dark:text-gray-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300"
-            />
-          </div>
-        </div>
-
-        {/* Details Button */}
-        <Link to={`/bookDetails/${book._id}`}>
-          <button className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] group/btn">
-            <div className="flex items-center justify-center gap-2">
-              <span>View Details</span>
-              <ArrowRight
-                size={16}
-                className="group-hover/btn:translate-x-1 transition-transform duration-200"
+          {/* Edit  */}
+          <div className="flex justify-between">
+            <div></div>
+            <div>
+              <SquarePen
+                onClick={handleEdit}
+                size={30}
+                className="text-gray-600 dark:text-gray-400  dark:hover:text-amber-400 transition-colors duration-300"
               />
             </div>
-          </button>
-        </Link>
+          </div>
+        </div>
       </div>
 
       {/* Glow effect on hover */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-xl"></div>
-      
     </div>
   );
 };
 
-export default BookCard;
+export default MyBookCard;

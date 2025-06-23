@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Book,
   Home,
-  Search,
   ArrowLeft,
   BookOpen,
   Bookmark,
