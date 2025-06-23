@@ -1,5 +1,6 @@
 import { SquarePen, Star, Trash2, User } from "lucide-react";
 import React from "react";
+import { Link } from "react-router";
 
 const MyBookCard = ({ book, onDelete }) => {
   return (
@@ -67,12 +68,12 @@ const MyBookCard = ({ book, onDelete }) => {
           {/* Edit  */}
           <div className="flex justify-between">
             <div></div>
-            <div>
+            <Link to={`/updateBooks/${book._id}`}>
               <SquarePen
                 size={30}
                 className="text-gray-600 dark:text-gray-400  dark:hover:text-amber-400 transition-colors duration-300"
               />
-            </div>
+            </Link>
           </div>
         </div>
       </div>

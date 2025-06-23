@@ -9,6 +9,7 @@ import AddBook from "../Pages/AddBook";
 import BookDetails from "../Pages/BookDetails";
 import PrivateRoute from "../Private/PrivateRoute";
 import MyBooks from "../Pages/MyBooks";
+import UpdateBook from "../Pages/UpdateBook";
 import NotFound from "../Pages/NotFound";
 
 export const router = createBrowserRouter([
@@ -24,16 +25,19 @@ export const router = createBrowserRouter([
         path: "/Bookshelf",
         Component: Bookshelf,
       },
+
       {
         path: "/myBooks",
-        hydrateFallbackElement:<span className="loading loading-dots loading-xl mt-20 mr-[50%]"></span>,
+        hydrateFallbackElement: (
+          <span className="loading loading-dots loading-xl mt-20 mr-[50%]"></span>
+        ),
         element: (
           <PrivateRoute>
             {" "}
             <MyBooks />{" "}
           </PrivateRoute>
         ),
-        loader: () => fetch('http://localhost:5000/books')
+        loader: () => fetch("http://localhost:5000/books"),
       },
       {
         path: "/addBook",
@@ -43,6 +47,16 @@ export const router = createBrowserRouter([
             <AddBook />{" "}
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/updateBooks/:id",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <UpdateBook />{" "}
+          </PrivateRoute>
+        ),
+        loader: ({params}) => fetch(`http://localhost:5000/books/${params.id}`),
       },
       {
         path: "/bookDetails/:id",
