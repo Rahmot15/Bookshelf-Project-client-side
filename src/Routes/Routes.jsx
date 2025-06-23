@@ -11,6 +11,7 @@ import PrivateRoute from "../Private/PrivateRoute";
 import MyBooks from "../Pages/MyBooks";
 import UpdateBook from "../Pages/UpdateBook";
 import NotFound from "../Pages/NotFound";
+import ProfilePage from "../Pages/ProfilePage";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,15 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             {" "}
             <AddBook />{" "}
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <ProfilePage />{" "}
           </PrivateRoute>
         ),
       },

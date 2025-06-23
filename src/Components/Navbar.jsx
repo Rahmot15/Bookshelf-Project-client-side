@@ -117,6 +117,27 @@ const Navbar = () => {
           )}
         </NavLink>
       </li>
+
+      <li className="text-xl">
+        <NavLink to="/profile" end>
+          {({ isActive }) => (
+            <div className="relative">
+              <span
+                className={`text-xl font-semibold transition duration-300 ${
+                  isActive ? "text-blue-500" : "text-white"
+                }`}
+              >
+                Profile
+              </span>
+              <span
+                className={`absolute left-0 -bottom-1 h-1 w-full bg-blue-700 transition-transform duration-300 transform ${
+                  isActive ? "scale-x-100" : "scale-x-0"
+                } origin-left`}
+              ></span>
+            </div>
+          )}
+        </NavLink>
+      </li>
     </>
   );
 
