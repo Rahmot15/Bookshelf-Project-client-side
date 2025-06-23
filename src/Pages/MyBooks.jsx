@@ -1,13 +1,42 @@
 import React, { use, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../Provider/AuthContext";
-import BookCard from "../Components/BookCard";
 import { BookOpen } from "lucide-react";
 import MyBookCard from "../Components/MyBookCard";
+import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const MyBooks = () => {
+  const initialData = useLoaderData();
   const { user } = use(AuthContext);
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(initialData);
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:5000/books/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              const remaining = books.filter((b) => b._id !== id);
+              setBooks(remaining); // UI refresh
+              Swal.fire("Deleted!", "Your book has been deleted.", "success");
+            }
+          })
+          .catch(() => {
+            Swal.fire("Error!", "Failed to delete book.", "error");
+          });
+      }
+    });
+  };
 
   useEffect(() => {
     axios
@@ -57,7 +86,9 @@ const MyBooks = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {myBooks.length > 0 ? (
-            myBooks.map((book) => <MyBookCard key={book._id} book={book} />)
+            myBooks.map((book) => (
+              <MyBookCard key={book._id} book={book} onDelete={handleDelete} />
+            ))
           ) : (
             <div className="col-span-full text-center text-gray-500">
               <div className="text-center md:py-50 py-16">

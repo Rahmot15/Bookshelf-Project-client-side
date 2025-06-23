@@ -1,15 +1,7 @@
-import { BookOpen, SquarePen, Star, Trash2, User } from "lucide-react";
+import { SquarePen, Star, Trash2, User } from "lucide-react";
 import React from "react";
 
-const MyBookCard = ({ book }) => {
-
-  const handleDelete = () => {
-    
-  }
-  const handleEdit = () => {
-
-  }
-
+const MyBookCard = ({ book, onDelete }) => {
   return (
     <div className="group relative bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200/60 dark:border-gray-700/60 overflow-hidden backdrop-blur-sm">
       {/* Decorative gradient overlay */}
@@ -46,7 +38,7 @@ const MyBookCard = ({ book }) => {
             {book.book_title}
           </h3>
           <Trash2
-            onClick={handleDelete}
+            onClick={() => onDelete(book._id)}
             size={30}
             className="text-gray-600 mt-5 dark:text-gray-400 dark:hover:text-red-600 transition-colors duration-300"
           />
@@ -77,7 +69,6 @@ const MyBookCard = ({ book }) => {
             <div></div>
             <div>
               <SquarePen
-                onClick={handleEdit}
                 size={30}
                 className="text-gray-600 dark:text-gray-400  dark:hover:text-amber-400 transition-colors duration-300"
               />

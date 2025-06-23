@@ -26,12 +26,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "/myBooks",
+        hydrateFallbackElement:<span className="loading loading-dots loading-xl mt-20 mr-[50%]"></span>,
         element: (
           <PrivateRoute>
             {" "}
             <MyBooks />{" "}
           </PrivateRoute>
         ),
+        loader: () => fetch('http://localhost:5000/books')
       },
       {
         path: "/addBook",
