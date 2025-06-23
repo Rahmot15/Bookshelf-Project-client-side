@@ -23,7 +23,9 @@ const BookDetails = () => {
 
   const isOwnBook = user?.email === book?.email;
 
-  
+  const handleBack = () => {
+    window.history.back()
+  }
 
   const handleUpvote = async () => {
     if (user && !isOwnBook) {
@@ -56,10 +58,10 @@ const BookDetails = () => {
         <div className="bg-black/20 backdrop-blur-xl border-b border-gray-700/50">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <button className=" text-gray-300 hover:text-white transition-colors duration-300">
-              <Link to={"/Bookshelf"} className="flex items-center gap-2">
+              <div onClick={handleBack} className="flex items-center gap-2">
                 <ArrowLeft size={20} />
                 <span className="font-medium">Back to Bookshelf</span>
-              </Link>
+              </div>
             </button>
           </div>
         </div>
