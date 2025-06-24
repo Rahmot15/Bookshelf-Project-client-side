@@ -1,4 +1,4 @@
-import React, { useContext,  useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   ArrowLeft,
   User,
@@ -6,8 +6,6 @@ import {
   BookOpen,
   Tag,
   Eye,
-  Star,
-  Send,
   ThumbsUp,
 } from "lucide-react";
 import { AuthContext } from "../Provider/AuthContext";
@@ -20,12 +18,13 @@ const BookDetails = () => {
 
   const [upvotes, setUpvotes] = useState(Number(book.upvote || 0));
   const [reviews, setReviews] = useState([]);
+  const [status, setStatus] = useState(book.reading_status);
 
   const isOwnBook = user?.email === book?.email;
 
   const handleBack = () => {
-    window.history.back()
-  }
+    window.history.back();
+  };
 
   const handleUpvote = async () => {
     if (user && !isOwnBook) {
@@ -38,7 +37,18 @@ const BookDetails = () => {
     }
   };
 
-  
+  // Reading status update handler
+  const handleStatusUpdate = async (nextStatus) => {
+    try {
+      setStatus(nextStatus); // UI instantly updates
+      await axios.patch(`http://localhost:5000/books/${book._id}/status`, {
+        reading_status: nextStatus,
+      });
+    } catch (error) {
+      setStatus(book.reading_status); // Rollback if error
+      alert("Failed to update status!");
+    }
+  };
 
   const statusColors = {
     Read: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
@@ -104,12 +114,30 @@ const BookDetails = () => {
                   </h1>
                   <div
                     className={`px-4 py-2 rounded-xl text-sm font-semibold border backdrop-blur-sm ${
-                      statusColors[book.reading_status]
+                      statusColors[status]
                     }`}
                   >
-                    {book.reading_status}
+                    {status}
                   </div>
                 </div>
+
+                {/* Reading status update button (only for owner) */}
+                {isOwnBook && status === "Want-to-Read" && (
+                  <button
+                    onClick={() => handleStatusUpdate("Reading")}
+                    className="btn btn-info mb-4"
+                  >
+                    Start Reading
+                  </button>
+                )}
+                {isOwnBook && status === "Reading" && (
+                  <button
+                    onClick={() => handleStatusUpdate("Read")}
+                    className="btn btn-success mb-4"
+                  >
+                    Mark as Read
+                  </button>
+                )}
 
                 <p className="text-2xl text-gray-300 mb-6 font-medium">
                   {book.book_author}

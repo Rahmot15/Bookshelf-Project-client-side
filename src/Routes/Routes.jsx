@@ -12,6 +12,7 @@ import MyBooks from "../Pages/MyBooks";
 import UpdateBook from "../Pages/UpdateBook";
 import NotFound from "../Pages/NotFound";
 import ProfilePage from "../Pages/ProfilePage";
+import Loading from "../Pages/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
       {
         path: "/myBooks",
         hydrateFallbackElement: (
-          <span className="loading loading-dots loading-xl mt-20 mr-[50%]"></span>
+          <Loading/>
         ),
         element: (
           <PrivateRoute>

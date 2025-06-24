@@ -194,7 +194,9 @@ const Navbar = () => {
             <div>
               <div id="avatarTooltip" className="avatar cursor-pointer">
                 <div className="ring-primary ring-offset-base-100 w-11 rounded-full ring-2 ring-offset-2">
-                  <img src={user.photoURL} alt="User" />
+                  <Link to={"/profile"}>
+                    <img src={user.photoURL} alt="User" />
+                  </Link>
                 </div>
               </div>
 

@@ -1,4 +1,4 @@
-import { SquarePen, Star, Trash2, User } from "lucide-react";
+import { SquarePen, Star, Trash2, User,ArrowRight } from "lucide-react";
 import React from "react";
 import { Link } from "react-router";
 
@@ -76,7 +76,25 @@ const MyBookCard = ({ book, onDelete }) => {
             </Link>
           </div>
         </div>
+
+
+        {/* Details Button */}
+        <Link to={`/bookDetails/${book._id}`}>
+          <button className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] group/btn">
+            <div className="flex items-center justify-center gap-2">
+              <span>View Details</span>
+              <ArrowRight
+                size={16}
+                className="group-hover/btn:translate-x-1 transition-transform duration-200"
+              />
+            </div>
+          </button>
+        </Link>
+
       </div>
+
+
+      
 
       {/* Glow effect on hover */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-xl"></div>
