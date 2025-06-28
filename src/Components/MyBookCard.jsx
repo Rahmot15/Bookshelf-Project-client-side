@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router";
 
 const MyBookCard = ({ book, onDelete }) => {
+  
   return (
     <div className="group relative bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200/60 dark:border-gray-700/60 overflow-hidden backdrop-blur-sm">
       {/* Decorative gradient overlay */}

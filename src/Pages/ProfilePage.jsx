@@ -34,10 +34,14 @@ const ProfilePage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/books")
+      .get("http://localhost:5000/books", {
+        headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+      })
       .then((res) => setAllBooks(res.data))
       .catch((err) => console.error("Error fetching books:", err));
-  }, []);
+  }, [user]);
 
 
   useEffect(() => {

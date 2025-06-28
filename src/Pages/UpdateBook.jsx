@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   BookOpen,
   User,
@@ -13,8 +13,10 @@ import {
 import Swal from "sweetalert2";
 import { useLoaderData, useNavigate } from "react-router";
 import axios from "axios";
+import { AuthContext } from "../Provider/AuthContext";
 
 const UpdateBook = () => {
+  const {user} = use(AuthContext)
   const data = useLoaderData();
   const navigate = useNavigate();
   const [focusedField, setFocusedField] = useState("");
@@ -33,7 +35,11 @@ const UpdateBook = () => {
     data.reading_status = reading_status;
 
     axios
-      .put(`http://localhost:5000/books/${data._id}`, data)
+      .put(`http://localhost:5000/books/${data._id}`, data, {
+        headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+      })
       .then((res) => {
         console.log(res.data);
         if (res.data.modifiedCount > 0) {

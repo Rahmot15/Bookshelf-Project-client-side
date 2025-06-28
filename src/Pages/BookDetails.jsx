@@ -29,7 +29,7 @@ const BookDetails = () => {
   const handleUpvote = async () => {
     if (user && !isOwnBook) {
       try {
-        setUpvotes((prev) => prev + 1); // UI updates instantly
+        setUpvotes((prev) => prev + 1);
         await axios.patch(`http://localhost:5000/books/${book._id}/upvote`);
       } catch (error) {
         console.error("Upvote failed", error);
@@ -40,13 +40,14 @@ const BookDetails = () => {
   // Reading status update handler
   const handleStatusUpdate = async (nextStatus) => {
     try {
-      setStatus(nextStatus); // UI instantly updates
+      setStatus(nextStatus);
       await axios.patch(`http://localhost:5000/books/${book._id}/status`, {
         reading_status: nextStatus,
       });
     } catch (error) {
-      setStatus(book.reading_status); // Rollback if error
-      alert("Failed to update status!");
+      setStatus(book.reading_status);
+      console.log(error);
+      
     }
   };
 

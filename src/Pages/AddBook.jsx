@@ -30,7 +30,11 @@ const AddBook = () => {
     e.target.reset();
 
     axios
-      .post("http://localhost:5000/books", data)
+      .post("http://localhost:5000/books", data, {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      })
       .then((res) => {
         console.log(res.data);
         if (res.data.insertedId) {

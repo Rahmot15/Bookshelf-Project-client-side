@@ -11,6 +11,8 @@ const MyBooks = () => {
   const { user } = use(AuthContext);
   const [books, setBooks] = useState(initialData);
 
+  console.log(user.accessToken);
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -23,7 +25,11 @@ const MyBooks = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/books/${id}`)
+          .delete(`http://localhost:5000/books/${id}`, {
+            headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+          })
           .then((res) => {
             if (res.data.deletedCount > 0) {
               const remaining = books.filter((b) => b._id !== id);
@@ -39,13 +45,17 @@ const MyBooks = () => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/books")
-      .then((res) => setBooks(res.data))
-      .catch(() => setBooks([]));
-  }, []);
-
-  const myBooks = books.filter((book) => book.email === user?.email);
+    if (user?.email) {
+      axios
+        .get(`http://localhost:5000/myBooks?email=${user.email}`, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+        .then((res) => setBooks(res.data))
+        .catch(() => setBooks([]));
+    }
+  }, [user]);
 
   return (
     <div className="{`min-h-screen transition-all duration-500 ${isDark ? 'dark bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-purple-50/30 to-pink-50'}`}">
@@ -85,9 +95,14 @@ const MyBooks = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {myBooks.length > 0 ? (
-            myBooks.map((book) => (
-              <MyBookCard key={book._id} book={book} onDelete={handleDelete} />
+          {books.length > 0 ? (
+            books.map((book) => (
+              <MyBookCard
+                key={book._id}
+                user={user}
+                book={book}
+                onDelete={handleDelete}
+              />
             ))
           ) : (
             <div className="col-span-full text-center text-gray-500">
