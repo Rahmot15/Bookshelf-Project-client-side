@@ -7,10 +7,13 @@ import {
   Tag,
   Eye,
   ThumbsUp,
+  Star,
+  Send,
 } from "lucide-react";
 import { AuthContext } from "../Provider/AuthContext";
 import { Link, useLoaderData } from "react-router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const BookDetails = () => {
   const book = useLoaderData();
@@ -20,10 +23,60 @@ const BookDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [status, setStatus] = useState(book.reading_status);
 
+  const [newReview, setNewReview] = useState({ rating: 5, review: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasReviewed, setHasReviewed] = useState(false);
+
   const isOwnBook = user?.email === book?.email;
 
   const handleBack = () => {
     window.history.back();
+  };
+
+  console.log("book", typeof book._id);
+
+  const handleSubmitReview = async () => {
+    if (!user) return;
+
+    const reviewData = {
+      createdAt: new Date().toISOString(),
+      review: newReview.review,
+      rating: newReview.rating,
+      user: {
+        name: user.displayName,
+        email: user.email,
+      },
+      bookId: book._id,
+    };
+
+    try {
+      setIsSubmitting(true);
+      await axios.post(
+        `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews`,
+        reviewData,
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      );
+      // Refresh reviews
+      const res = await axios.get(
+        `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews`
+      );
+      setReviews(res.data);
+      setHasReviewed(true);
+      setNewReview({ rating: 5, review: "" });
+    } catch (error) {
+      if (error.response?.status === 409) {
+        Swal.fire("You have already reviewed this book.");
+        setHasReviewed(true);
+      } else {
+        console.error("Failed to submit review", error);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleUpvote = async () => {
@@ -47,7 +100,6 @@ const BookDetails = () => {
     } catch (error) {
       setStatus(book.reading_status);
       console.log(error);
-      
     }
   };
 
@@ -114,9 +166,7 @@ const BookDetails = () => {
                     {book.book_title}
                   </h1>
                   <div
-                    className={`px-4 py-2 rounded-xl text-sm font-semibold border backdrop-blur-sm ${
-                      statusColors[status]
-                    }`}
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold border backdrop-blur-sm ${statusColors[status]}`}
                   >
                     {status}
                   </div>
@@ -203,6 +253,106 @@ const BookDetails = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Reviews Section */}
+          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
+            <h2 className="text-3xl font-bold text-white mb-6">Reviews</h2>
+
+            {user && !hasReviewed && (
+              <div className="mb-8 bg-black/20 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4">
+                  Write a Review
+                </h3>
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-gray-300 font-medium">Rating:</span>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() =>
+                          setNewReview((prev) => ({ ...prev, rating: star }))
+                        }
+                        className={`p-1 transition-colors duration-200 ${
+                          star <= newReview.rating
+                            ? "text-yellow-400"
+                            : "text-gray-600"
+                        }`}
+                      >
+                        <Star
+                          size={24}
+                          className={
+                            star <= newReview.rating ? "fill-current" : ""
+                          }
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <textarea
+                  value={newReview.review}
+                  onChange={(e) =>
+                    setNewReview((prev) => ({
+                      ...prev,
+                      review: e.target.value,
+                    }))
+                  }
+                  placeholder="Share your thoughts about this book..."
+                  className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors duration-300 resize-none"
+                  rows="4"
+                />
+
+                <button
+                  onClick={handleSubmitReview}
+                  disabled={isSubmitting || !newReview.review.trim()}
+                  className="mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <Send size={18} />
+                  {isSubmitting ? "Posting..." : "Post Review"}
+                </button>
+              </div>
+            )}
+
+            <div className="space-y-6">
+              {reviews.map((review) => (
+                <div
+                  key={review._id}
+                  className="bg-black/20 rounded-2xl p-6 border border-white/10"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+                      <User className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold">
+                        {review.user.name}
+                      </p>
+                      <p className="text-gray-400 text-sm">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-1 mb-3">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        size={18}
+                        className={
+                          star <= review.rating
+                            ? "text-yellow-400 fill-current"
+                            : "text-gray-600"
+                        }
+                      />
+                    ))}
+                  </div>
+                  <p className="text-gray-300 leading-relaxed">
+                    {review.review}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
