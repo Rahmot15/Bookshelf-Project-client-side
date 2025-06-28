@@ -35,7 +35,7 @@ const UpdateBook = () => {
     data.reading_status = reading_status;
 
     axios
-      .put(`http://localhost:5000/books/${data._id}`, data, {
+      .put(`https://bookshelf-server-side.vercel.app/books/${data._id}?email=${user.email}`, data, {
         headers: {
             Authorization: `Bearer ${user.accessToken}`,
           },

@@ -11,8 +11,6 @@ const MyBooks = () => {
   const { user } = use(AuthContext);
   const [books, setBooks] = useState(initialData);
 
-  console.log(user.accessToken);
-
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -25,7 +23,7 @@ const MyBooks = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/books/${id}`, {
+          .delete(`https://bookshelf-server-side.vercel.app/books/${id}?email=${user.email}`, {
             headers: {
             Authorization: `Bearer ${user.accessToken}`,
           },
@@ -47,7 +45,7 @@ const MyBooks = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/myBooks?email=${user.email}`, {
+        .get(`https://bookshelf-server-side.vercel.app/myBooks?email=${user.email}`, {
           headers: {
             Authorization: `Bearer ${user.accessToken}`,
           },

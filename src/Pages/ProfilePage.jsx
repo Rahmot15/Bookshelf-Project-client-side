@@ -34,7 +34,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/books", {
+      .get("https://bookshelf-server-side.vercel.app/books", {
         headers: {
             Authorization: `Bearer ${user.accessToken}`,
           },

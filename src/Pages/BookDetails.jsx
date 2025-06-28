@@ -30,7 +30,7 @@ const BookDetails = () => {
     if (user && !isOwnBook) {
       try {
         setUpvotes((prev) => prev + 1);
-        await axios.patch(`http://localhost:5000/books/${book._id}/upvote`);
+        await axios.patch(`https://bookshelf-server-side.vercel.app/books/${book._id}/upvote`);
       } catch (error) {
         console.error("Upvote failed", error);
       }
@@ -41,7 +41,7 @@ const BookDetails = () => {
   const handleStatusUpdate = async (nextStatus) => {
     try {
       setStatus(nextStatus);
-      await axios.patch(`http://localhost:5000/books/${book._id}/status`, {
+      await axios.patch(`https://bookshelf-server-side.vercel.app/books/${book._id}/status`, {
         reading_status: nextStatus,
       });
     } catch (error) {

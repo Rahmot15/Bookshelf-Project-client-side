@@ -30,7 +30,7 @@ const AddBook = () => {
     e.target.reset();
 
     axios
-      .post("http://localhost:5000/books", data, {
+      .post(`https://bookshelf-server-side.vercel.app/books?email=${user.email}`, data, {
         headers: {
           Authorization: `Bearer ${user.accessToken}`,
         },
@@ -38,7 +38,6 @@ const AddBook = () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.insertedId) {
-          navigate("/Bookshelf");
           Swal.fire({
             position: "center",
             icon: "success",
@@ -46,6 +45,7 @@ const AddBook = () => {
             showConfirmButton: false,
             timer: 1500,
           });
+          navigate("/Bookshelf");
         }
       })
       .catch((error) => {

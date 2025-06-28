@@ -10,7 +10,7 @@ const Bookshelf = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/books")
+      .get("https://bookshelf-server-side.vercel.app/books")
       .then((res) => setBooks(res.data))
       .catch(() => setBooks([]));
   }, []);
