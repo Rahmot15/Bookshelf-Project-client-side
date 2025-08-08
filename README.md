@@ -125,7 +125,7 @@ Before you begin, ensure you have the following installed:
 
 This project relies on a separate backend server for data management and JWT authentication. Please refer to the backend repository for setup instructions:
 
-*   **Backend Repository:** [https://github.com/Rahmot15/Bookshelf-Project-server-side.git](YOUR_BACKEND_REPO_URL)
+*   **Backend Repository:** [Link to your Backend Repository Here](https://github.com/Rahmot15/Bookshelf-Project-server-side.git)
     *   *Replace `YOUR_BACKEND_REPO_URL` with the actual link to your Express.js/Node.js backend repository.*
 
 ---
