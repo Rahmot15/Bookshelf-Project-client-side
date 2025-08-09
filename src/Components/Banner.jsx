@@ -3,43 +3,47 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
   {
-    "img": "img1.png",
-    "book_name": "Atomic Habits",
-    "category": "Self-Help",
-    "summary": "Learn how small habits can lead to remarkable results and lasting personal change."
+    img: "img1.png",
+    book_name: "Atomic Habits",
+    category: "Self-Help",
+    summary:
+      "Learn how small habits can lead to remarkable results and lasting personal change.",
   },
   {
-    "img": "img2.png",
-    "book_name": "Rich Dad Poor Dad",
-    "category": "Personal Finance",
-    "summary": "Discover the mindset and financial lessons that can help you achieve financial freedom."
+    img: "img2.png",
+    book_name: "Rich Dad Poor Dad",
+    category: "Personal Finance",
+    summary:
+      "Discover the mindset and financial lessons that can help you achieve financial freedom.",
   },
   {
-    "img": "img3.png",
-    "book_name": "Mindset: The New Psychology of Success",
-    "category": "Psychology",
-    "summary": "Understand how having a growth mindset can transform your life and career."
+    img: "img3.png",
+    book_name: "Mindset: The New Psychology of Success",
+    category: "Psychology",
+    summary:
+      "Understand how having a growth mindset can transform your life and career.",
   },
   {
-    "img": "img4.png",
-    "book_name": "The 7 Habits of Highly Effective People",
-    "category": "Self-Development",
-    "summary": "Timeless principles for personal and professional effectiveness."
+    img: "img4.png",
+    book_name: "The 7 Habits of Highly Effective People",
+    category: "Self-Development",
+    summary: "Timeless principles for personal and professional effectiveness.",
   },
   {
-    "img": "img5.png",
-    "book_name": "Deep Work",
-    "category": "Productivity",
-    "summary": "Master the ability to focus without distraction and achieve more in less time."
+    img: "img5.png",
+    book_name: "Deep Work",
+    category: "Productivity",
+    summary:
+      "Master the ability to focus without distraction and achieve more in less time.",
   },
   {
-    "img": "img6.png",
-    "book_name": "Think and Grow Rich",
-    "category": "Motivation",
-    "summary": "Classic lessons on success, wealth, and the power of positive thinking."
-  }
+    img: "img6.png",
+    book_name: "Think and Grow Rich",
+    category: "Motivation",
+    summary:
+      "Classic lessons on success, wealth, and the power of positive thinking.",
+  },
 ];
-
 
 const items = images.map((imag) => ({
   img: imag.img,
@@ -83,7 +87,6 @@ const Banner = () => {
   const [[page, direction], setPage] = useState([0, 0]);
   const timeoutRef = useRef(null);
 
-
   const paginate = (newDirection) => {
     setPage(([p]) => [
       (p + newDirection + items.length) % items.length,
@@ -91,14 +94,12 @@ const Banner = () => {
     ]);
   };
 
-
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       paginate(1);
     }, 3000);
     return () => clearTimeout(timeoutRef.current);
   }, [page]);
-
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -109,7 +110,6 @@ const Banner = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-
   const handleDragEnd = (event, info) => {
     if (info.offset.x < -50) paginate(1);
     else if (info.offset.x > 50) paginate(-1);
@@ -118,9 +118,9 @@ const Banner = () => {
   const current = items[page];
 
   return (
-    <div className="md:-mt-16 -mt-10 relative w-full min-h-screen flex items-center justify-center bg-[#f0ecec] overflow-hidden">
+    <div className="md:-mt-16 -mt-10 relative w-full min-h-screen flex items-center justify-center bg-base-200 overflow-hidden">
       {/* Background Blur */}
-      <div className="absolute w-[600px] h-[400px] bg-gradient-to-tr from-purple-300 via-blue-200 to-pink-200 rounded-[30%] blur-[120px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0"></div>
+      <div className="absolute w-[600px] h-[400px] bg-gradient-to-tr from-primary/30 via-secondary/30 to-accent/30 rounded-[30%] blur-[120px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0"></div>
 
       {/* Slider */}
       <div className="relative z-10 w-full max-w-6xl px-4 md:px-8 py-8 h-auto flex items-center justify-center">
@@ -144,7 +144,7 @@ const Banner = () => {
                 variants={textVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-2xl sm:text-4xl text-gray-700 font-semibold mb-2"
+                className="text-2xl sm:text-4xl text-base-content font-semibold mb-2"
               >
                 {current.book_name}
               </motion.div>
@@ -153,7 +153,7 @@ const Banner = () => {
                 variants={textVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-xl sm:text-2xl text-indigo-700 font-bold mb-4"
+                className="text-xl sm:text-2xl text-primary font-bold mb-4"
               >
                 {current.category}
               </motion.div>
@@ -162,7 +162,7 @@ const Banner = () => {
                 variants={textVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-gray-600 text-base sm:text-lg max-w-md mx-auto md:mx-0"
+                className="text-base-content/80 text-base sm:text-lg max-w-md mx-auto md:mx-0"
               >
                 {current.summary}
               </motion.div>
@@ -173,9 +173,8 @@ const Banner = () => {
                 animate="visible"
                 className="btn btn-primary mt-4"
               >
-                Reed More
+                Read More
               </motion.button>
-
             </div>
 
             {/* Image Right */}
@@ -205,13 +204,13 @@ const Banner = () => {
 
         {/* Arrows */}
         <button
-          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-gray-600 flex items-center justify-center text-xl sm:text-2xl bg-white hover:bg-gray-100 transition text-gray-900"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-base-content/40 flex items-center justify-center text-xl sm:text-2xl bg-base-100 hover:bg-base-200 transition text-base-content"
           onClick={() => paginate(-1)}
         >
           &#8592;
         </button>
         <button
-          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-gray-600 flex items-center justify-center text-xl sm:text-2xl bg-white hover:bg-gray-100 transition text-gray-900"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-base-content/40 flex items-center justify-center text-xl sm:text-2xl bg-base-100 hover:bg-base-200 transition text-base-content"
           onClick={() => paginate(1)}
         >
           &#8594;
