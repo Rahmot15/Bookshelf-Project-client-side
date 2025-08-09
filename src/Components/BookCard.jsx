@@ -37,14 +37,14 @@ const BookCard = ({ book }) => {
       {/* Content Section */}
       <div className="relative px-6 pb-6">
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300">
+        <h3 className={`text-lg lin font-bold text-gray-900 dark:text-white mb-2 line-clamp-1 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300 hover:${book.book_title}`}>
           {book.book_title}
         </h3>
 
         {/* Author */}
         <div className="flex items-center gap-2 mb-4 text-gray-600 dark:text-gray-400">
           <User size={16} className="text-gray-500 dark:text-gray-500" />
-          <span className="text-sm font-medium">{book.book_author}</span>
+          <span className="text-sm font-medium line-clamp-1">{book.book_author}</span>
         </div>
 
         {/* Rating Section */}
@@ -86,7 +86,7 @@ const BookCard = ({ book }) => {
 
       {/* Glow effect on hover */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-xl"></div>
-      
+
     </div>
   );
 };

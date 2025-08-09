@@ -19,6 +19,8 @@ const Navbar = () => {
       });
   };
 
+
+
   const link = (
     <>
       <li className="text-xl">
@@ -129,7 +131,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="w-full sticky top-0 left-0 z-20  backdrop-blur-md bg-black/30">
+    <div className="w-full sticky top-0 left-0 z-20  bg-black/30 backdrop-blur-lg border-b border-white/10">
       <div className="navbar md:p-0 md:w-11/12 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -223,7 +225,7 @@ const Navbar = () => {
               <input
                 type="checkbox"
                 className="theme-controller"
-                value="abyss"
+                value="garden"
               />
 
               {/* sun icon */}

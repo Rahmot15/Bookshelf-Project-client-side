@@ -2,5 +2,12 @@
 @plugin "daisyui";
 
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark, abyss;
+  themes: light --default, dark --prefersdark, night, garden;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: true;
+  --color-secondary: #FD8C04;
+  --color-primary: #ff5757;
 }

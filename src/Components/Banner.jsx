@@ -83,7 +83,7 @@ const Banner = () => {
   const [[page, direction], setPage] = useState([0, 0]);
   const timeoutRef = useRef(null);
 
-  
+
   const paginate = (newDirection) => {
     setPage(([p]) => [
       (p + newDirection + items.length) % items.length,
@@ -118,7 +118,7 @@ const Banner = () => {
   const current = items[page];
 
   return (
-    <div className="md:-mt-16 -mt-10 relative w-full min-h-screen flex items-center justify-center bg-[#f4f4f4] overflow-hidden">
+    <div className="md:-mt-16 -mt-10 relative w-full min-h-screen flex items-center justify-center bg-[#f0ecec] overflow-hidden">
       {/* Background Blur */}
       <div className="absolute w-[600px] h-[400px] bg-gradient-to-tr from-purple-300 via-blue-200 to-pink-200 rounded-[30%] blur-[120px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0"></div>
 
@@ -171,7 +171,7 @@ const Banner = () => {
                 variants={textVariants}
                 initial="hidden"
                 animate="visible"
-                className="btn btn-secondary mt-4"
+                className="btn btn-primary mt-4"
               >
                 Reed More
               </motion.button>
