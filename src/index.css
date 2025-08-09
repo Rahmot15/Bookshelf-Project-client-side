@@ -6,8 +6,8 @@
 }
 
 @plugin "daisyui/theme" {
-  name: "dark";
+  name: "garden";
   default: true;
-  --color-secondary: #FD8C04;
-  --color-primary: #ff5757;
+  --color-secondary: #055E68;
+  --color-primary: #8B5E83;
 }

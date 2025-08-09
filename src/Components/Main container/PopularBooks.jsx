@@ -16,7 +16,7 @@ const PopularBooks = () => {
 
   const popularBooks = books
     .sort((a, b) => b.upvote - a.upvote)
-    .slice(0, 9);
+    .slice(0, 10);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 40, scale: 0.95 },
