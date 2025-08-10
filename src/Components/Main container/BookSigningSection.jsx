@@ -36,7 +36,7 @@ const BookSigningSection = () => {
               bookmark.
             </p>
             <Link
-              to=""
+              to="/Bookshelf"
               className="btn btn-outline btn-secondary px-10"
             >
               Read more

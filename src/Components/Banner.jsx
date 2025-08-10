@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router";
 
 const images = [
   {
@@ -166,15 +167,17 @@ const Banner = () => {
               >
                 {current.summary}
               </motion.div>
-              <motion.button
-                custom={2}
-                variants={textVariants}
-                initial="hidden"
-                animate="visible"
-                className="btn btn-outline btn-secondary mt-4"
-              >
-                Read More
-              </motion.button>
+              <Link to={"/Bookshelf"}>
+                <motion.button
+                  custom={2}
+                  variants={textVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="btn btn-outline btn-secondary mt-4"
+                >
+                  Read More
+                </motion.button>
+              </Link>
             </div>
 
             {/* Image Right */}
