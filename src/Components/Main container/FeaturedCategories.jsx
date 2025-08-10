@@ -1,5 +1,7 @@
 import { BookOpen, Star } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
+import "aos/dist/aos.css";
+import Aos from "aos";
 
 const categories = [
   {
@@ -22,7 +24,12 @@ const categories = [
   },
 ];
 
+const animations = ["fade-right", "zoom-in", "fade-left"];
+
 const FeaturedCategories = () => {
+  useEffect(() => {
+    Aos.init({ duration: 1000, easing: "ease-in-out", once: true });
+  }, []);
   return (
     <div className="w-11/12 mx-auto  md:my-50 my-16">
       <h2 className="md:text-5xl text-xl text-secondary font-bold flex items-center justify-center gap-3 md:mb-16 mb-5">
@@ -31,9 +38,10 @@ const FeaturedCategories = () => {
         <BookOpen size={40} className="mt-3 text-secondary" />
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {categories.map((cat) => (
+        {categories.map((cat, index) => (
           <div
             key={cat.name}
+            data-aos={animations[index % animations.length]}
             className={`rounded-2xl shadow-xl p-8 bg-gradient-to-br ${cat.color} text-white flex flex-col items-center hover:scale-105 transition-transform duration-300`}
           >
             <div className="text-5xl mb-4">{cat.icon}</div>
