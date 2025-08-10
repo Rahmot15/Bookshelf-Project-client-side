@@ -37,7 +37,7 @@ const BookSigningSection = () => {
             </p>
             <Link
               to=""
-              className="btn btn-outline rounded-none px-8 tracking-[0.3em] uppercase border-gray-300 text-base-content hover:bg-gray-800 hover:text-white"
+              className="btn btn-outline btn-secondary px-10"
             >
               Read more
             </Link>

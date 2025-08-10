@@ -201,7 +201,7 @@ const Navbar = () => {
                   <p className="text-lg text-gray-600">{user.email}</p>
                   <button
                     onClick={handleLogout}
-                    className="inline-flex w-full items-center justify-center rounded-lg bg-green-600 md:py-2 py-2 md:px-5 px-3 font-dm text-base font-medium text-white shadow-xl shadow-green-400/30 transition-transform duration-200 ease-in-out hover:scale-[1.02]"
+                    className="px-6 py-2 min-w-[120px] text-center text-white bg-primary border border-primary rounded active:text-primary hover:bg-transparent hover:text-primary focus:outline-none focus:ring w-full"
                   >
                     logOut
                   </button>
@@ -212,7 +212,7 @@ const Navbar = () => {
           ) : (
             <Link
               to={"/auth/login"}
-              className="inline-flex items-center justify-center rounded-lg bg-green-600 md:py-3 py-2 md:px-5 px-3 font-dm text-base font-medium text-white shadow-xl shadow-green-400/30 transition-transform duration-200 ease-in-out hover:scale-[1.02]"
+              className="btn btn-outline btn-secondary"
             >
               Login
             </Link>

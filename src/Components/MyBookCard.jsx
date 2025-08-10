@@ -96,9 +96,7 @@ const MyBookCard = ({ book, onDelete }) => {
         {/* Details Button */}
         <Link to={`/bookDetails/${book._id}`}>
           <button
-            className="w-full bg-primary
-            hover:from-amber-600 hover:to-amber-700
-            text-white font-semibold py-3 px-4 rounded-xl
+            className="w-full px-6 py-2 min-w-[120px] text-center text-white bg-primary border border-primary rounded active:text-primary hover:bg-transparent hover:text-primary focus:outline-none focus:ring w-full font-semibold py-3 px-4 rounded-xl
             shadow-lg hover:shadow-xl
             transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
           >

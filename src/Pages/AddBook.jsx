@@ -385,7 +385,7 @@ const AddBook = () => {
 
             {/* Submit Button */}
             <div className="mt-8 flex justify-center">
-              <button className="flex justify-center items-center bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 hover:from-purple-700 hover:via-pink-700 hover:to-blue-700 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 px-8 py-4 rounded-2xl text-white">
+              <button className="flex justify-center items-center text-center text-white bg-primary border border-primary active:text-primary hover:bg-transparent hover:text-primary focus:outline-none focus:ring w-full px-8 py-4 rounded-2xl ">
                 <BookOpen className="w-5 h-5 mr-2" />
                 Add Book to Library
                 <Sparkles className="w-5 h-5 ml-2 animate-pulse" />

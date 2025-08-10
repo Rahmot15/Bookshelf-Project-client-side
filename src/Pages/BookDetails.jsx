@@ -118,9 +118,9 @@ const BookDetails = () => {
     <div>
       <div className="relative z-10">
         {/* Header */}
-        <div className="bg-white/90 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300/50 dark:border-gray-700/50">
+        <div className="bg-base-300 border-b">
           <div className="max-w-7xl mx-auto px-4 py-4">
-            <button className="text-gray-800 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-400 transition-colors duration-300">
+            <button className="text-base-content dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-400 transition-colors duration-300">
               <div onClick={handleBack} className="flex items-center gap-2">
                 <ArrowLeft size={20} />
                 <span className="font-medium">Back to Bookshelf</span>
@@ -310,7 +310,7 @@ const BookDetails = () => {
                 <button
                   onClick={handleSubmitReview}
                   disabled={isSubmitting || !newReview.review.trim()}
-                  className="mt-4 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="mt-4 px-6 py-3 text-center text-white bg-primary border border-primary active:text-primary hover:bg-transparent hover:text-primary focus:outline-none focus:ring rounded-2xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Send size={18} />
                   {isSubmitting ? "Posting..." : "Post Review"}

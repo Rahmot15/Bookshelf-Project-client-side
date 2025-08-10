@@ -171,7 +171,7 @@ const Banner = () => {
                 variants={textVariants}
                 initial="hidden"
                 animate="visible"
-                className="btn btn-primary mt-4"
+                className="btn btn-outline btn-secondary mt-4"
               >
                 Read More
               </motion.button>
