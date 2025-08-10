@@ -5,7 +5,7 @@ import { Link } from "react-router";
 const BookCard = ({ book }) => {
   return (
     <div
-      className="group relative bg-base-100 text-base-content rounded-2xl shadow-lg hover:shadow-2xl border border-base-200 transition-all duration-500 overflow-hidden backdrop-blur-sm"
+      className="group relative bg-base-200 text-base-content rounded-2xl shadow-lg hover:shadow-2xl border border-base-200 transition-all duration-500 overflow-hidden backdrop-blur-sm"
     >
       {/* Decorative gradient overlay */}
       <div

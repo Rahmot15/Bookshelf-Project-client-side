@@ -31,18 +31,16 @@ const ProfilePage = () => {
   const [stats, setStats] = useState({});
   const [chartType, setChartType] = useState("pie");
 
-
   useEffect(() => {
     axios
       .get("https://bookshelf-server-side.vercel.app/books", {
         headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
+          Authorization: `Bearer ${user.accessToken}`,
+        },
       })
       .then((res) => setAllBooks(res.data))
       .catch((err) => console.error("Error fetching books:", err));
   }, [user]);
-
 
   useEffect(() => {
     if (!user || !user.email || allBooks.length === 0) return;
@@ -103,12 +101,12 @@ const ProfilePage = () => {
     subtitle,
     color = "bg-blue-500",
   }) => (
-    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-base-200 rounded-xl shadow-lg p-6 border border-base-300 hover:shadow-xl transition-shadow duration-300">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
-          {subtitle && <p className="text-xs text-gray-500 mt-1">{subtitle}</p>}
+          <p className="text-sm font-medium text-base-content mb-1">{title}</p>
+          <p className="text-2xl font-bold text-base-content">{value}</p>
+          {subtitle && <p className="text-xs text-base-content mt-1">{subtitle}</p>}
         </div>
         <div className={`${color} p-3 rounded-full`}>
           <Icon className="w-6 h-6 text-white" />
@@ -151,26 +149,23 @@ const ProfilePage = () => {
   }
 
   return (
-    <div >
-
-      <div className="max-w-7xl mx-auto">
+    <div>
+      <div className="max-w-7xl mx-auto my-12">
         {/* Header */}
-        <div className="py-8 text-center">
+        <div className="pb-8 text-center">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl shadow-lg">
+            <div className="p-3 bg-secondary rounded-2xl shadow-lg">
               <User size={32} className="text-white" />
             </div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
-              My Profile
-            </h1>
+            <h1 className="text-5xl font-bold text-secondary">My Profile</h1>
           </div>
-          <p className="text-gray-400">
+          <p className="">
             Manage your reading journey and track your progress
           </p>
         </div>
 
         {/* User Info Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-8 border border-gray-100">
+        <div className="bg-base-200 rounded-2xl shadow-xl p-6 sm:p-8 mb-8 border border-base-300">
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <div className="relative group">
               <img
@@ -178,26 +173,26 @@ const ProfilePage = () => {
                   user.photoURL || "https://i.ibb.co/s9F7VY3/default-avatar.jpg"
                 }
                 alt={user.displayName}
-                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-base-100 shadow-lg"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+              <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
                 <Camera className="w-6 h-6 text-white" />
               </div>
             </div>
 
             <div className="flex-1 text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                <h2 className="text-2xl sm:text-3xl font-bold text-base-content">
                   {user.displayName}
                 </h2>
-                <Edit3 className="w-5 h-5 text-gray-400 cursor-pointer hover:text-indigo-600 transition-colors" />
+                <Edit3 className="w-5 h-5 text-base-content/60 cursor-pointer hover:text-secondary transition-colors" />
               </div>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-gray-600 mb-2">
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-base-content/70 mb-2">
                 <Mail className="w-4 h-4" />
                 <span>{user.email}</span>
               </div>
 
-              <p className="text-gray-700 max-w-2xl">
+              <p className="text-base-content/80 max-w-2xl">
                 {user.bio || "Book enthusiast and avid reader."}
               </p>
             </div>
@@ -211,63 +206,63 @@ const ProfilePage = () => {
             title="Total Books"
             value={stats.totalBooks}
             subtitle="books in library"
-            color="bg-indigo-500"
+            color="bg-primary"
           />
           <StatCard
             icon={TrendingUp}
             title="Average Rating"
             value={`${stats.avgRating}/5`}
             subtitle="your book ratings"
-            color="bg-emerald-500"
+            color="bg-accent"
           />
           <StatCard
             icon={Award}
             title="High Rated Books"
             value={stats.highRatedBooks}
             subtitle="4+ star ratings"
-            color="bg-amber-500"
+            color="bg-secondary"
           />
           <StatCard
             icon={User}
             title="Favorite Genre"
             value={stats.favoriteGenre}
             subtitle="most read category"
-            color="bg-purple-500"
+            color="bg-info"
           />
         </div>
 
         {/* Chart Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-100">
+        <div className="bg-base-200 rounded-2xl shadow-xl p-6 sm:p-8 border border-base-300">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-bold text-base-content mb-2">
                 Reading Analytics
               </h3>
-              <p className="text-gray-600">Your books organized by category</p>
+              <p className="text-base-content/70">
+                Your books organized by category
+              </p>
             </div>
-            <div className="relative z-20">
-              <div className="flex bg-gray-100 rounded-lg p-1 mt-4 sm:mt-0">
-                <button
-                  onClick={() => setChartType("pie")}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    chartType === "pie"
-                      ? "bg-white text-indigo-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  Pie Chart
-                </button>
-                <button
-                  onClick={() => setChartType("bar")}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    chartType === "bar"
-                      ? "bg-white text-indigo-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  Bar Chart
-                </button>
-              </div>
+            <div className="flex bg-base-300 rounded-lg p-1 mt-4 sm:mt-0">
+              <button
+                onClick={() => setChartType("pie")}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  chartType === "pie"
+                    ? "bg-base-100 text-primary shadow-sm"
+                    : "text-base-content/70 hover:text-base-content"
+                }`}
+              >
+                Pie Chart
+              </button>
+              <button
+                onClick={() => setChartType("bar")}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  chartType === "bar"
+                    ? "bg-base-100 text-primary shadow-sm"
+                    : "text-base-content/70 hover:text-base-content"
+                }`}
+              >
+                Bar Chart
+              </button>
             </div>
           </div>
 
@@ -319,13 +314,13 @@ const ProfilePage = () => {
                 </ResponsiveContainer>
               </div>
               <div className="space-y-4">
-                <h4 className="font-semibold text-lg text-gray-900 mb-4">
+                <h4 className="font-semibold text-lg text-base-content mb-4">
                   Category Breakdown
                 </h4>
                 {categoryData.map((item, index) => (
                   <div
                     key={item.name}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-base-300 rounded-lg"
                   >
                     <div className="flex items-center gap-3">
                       <div
@@ -334,15 +329,15 @@ const ProfilePage = () => {
                           backgroundColor: COLORS[index % COLORS.length],
                         }}
                       ></div>
-                      <span className="font-medium text-gray-700">
+                      <span className="font-medium text-base-content">
                         {item.name}
                       </span>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-gray-900">
+                      <div className="font-bold text-base-content">
                         {item.value}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-base-content/60">
                         {item.percentage}%
                       </div>
                     </div>
@@ -352,9 +347,9 @@ const ProfilePage = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">No books added yet</p>
-              <p className="text-gray-400">
+              <BookOpen className="w-16 h-16 text-base-content/30 mx-auto mb-4" />
+              <p className="text-base-content text-lg">No books added yet</p>
+              <p className="text-base-content/70">
                 Start building your library to see analytics
               </p>
             </div>

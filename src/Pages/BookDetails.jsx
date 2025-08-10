@@ -118,9 +118,9 @@ const BookDetails = () => {
     <div>
       <div className="relative z-10">
         {/* Header */}
-        <div className="bg-black/20 backdrop-blur-xl border-b border-gray-700/50">
+        <div className="bg-white/90 dark:bg-black/80 backdrop-blur-xl border-b border-gray-300/50 dark:border-gray-700/50">
           <div className="max-w-7xl mx-auto px-4 py-4">
-            <button className=" text-gray-300 hover:text-white transition-colors duration-300">
+            <button className="text-gray-800 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-400 transition-colors duration-300">
               <div onClick={handleBack} className="flex items-center gap-2">
                 <ArrowLeft size={20} />
                 <span className="font-medium">Back to Bookshelf</span>
@@ -135,7 +135,7 @@ const BookDetails = () => {
             <div className="lg:col-span-1">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
+                <div className="relative bg-white/20 dark:bg-gray-900/50 backdrop-blur-xl rounded-3xl p-6 border border-gray-300/20 dark:border-gray-700/30">
                   <img
                     src={book.cover_photo}
                     alt={book.book_title}
@@ -144,13 +144,13 @@ const BookDetails = () => {
                   <button
                     onClick={handleUpvote}
                     disabled={!user || isOwnBook}
-                    className="w-full mt-6 py-3 px-4 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-gray-300 hover:bg-white/20 hover:border-white/30 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full mt-6 py-3 px-4 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 bg-white/20 dark:bg-gray-800/40 border border-gray-400/30 dark:border-gray-600/40 text-gray-700 dark:text-gray-300 hover:bg-white/30 dark:hover:bg-gray-700/60 hover:border-gray-600 dark:hover:border-gray-400 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <ThumbsUp size={20} />
                     <span>{upvotes} Upvotes</span>
                   </button>
                   {isOwnBook && (
-                    <p className="text-center text-gray-400 text-sm mt-2">
+                    <p className="text-center text-gray-600 dark:text-gray-400 text-sm mt-2">
                       You cannot upvote your own book
                     </p>
                   )}
@@ -160,9 +160,9 @@ const BookDetails = () => {
 
             {/* Book Details */}
             <div className="lg:col-span-2">
-              <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 h-full">
+              <div className="bg-white/20 dark:bg-gray-900/50 backdrop-blur-xl rounded-3xl p-8 border border-gray-300/20 dark:border-gray-700/30 h-full">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
-                  <h1 className="text-4xl font-bold text-white mb-2">
+                  <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
                     {book.book_title}
                   </h1>
                   <div
@@ -190,34 +190,34 @@ const BookDetails = () => {
                   </button>
                 )}
 
-                <p className="text-2xl text-gray-300 mb-6 font-medium">
+                <p className="text-2xl text-gray-900 dark:text-gray-300 mb-6 font-medium">
                   {book.book_author}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                  <div className="flex items-center gap-3 bg-black/20 rounded-2xl p-4">
-                    <BookOpen className="text-purple-400" size={24} />
+                  <div className="flex items-center gap-3 bg-gray-100/40 dark:bg-black/40 rounded-2xl p-4">
+                    <BookOpen className="text-purple-700 dark:text-purple-400" size={24} />
                     <div>
-                      <p className="text-gray-400 text-sm">Pages</p>
-                      <p className="text-white font-semibold">
+                      <p className="text-gray-700 dark:text-gray-400 text-sm">Pages</p>
+                      <p className="text-gray-900 dark:text-white font-semibold">
                         {book.total_page}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 bg-black/20 rounded-2xl p-4">
-                    <Tag className="text-pink-400" size={24} />
+                  <div className="flex items-center gap-3 bg-gray-100/40 dark:bg-black/40 rounded-2xl p-4">
+                    <Tag className="text-pink-700 dark:text-pink-400" size={24} />
                     <div>
-                      <p className="text-gray-400 text-sm">Category</p>
-                      <p className="text-white font-semibold">
+                      <p className="text-gray-700 dark:text-gray-400 text-sm">Category</p>
+                      <p className="text-gray-900 dark:text-white font-semibold">
                         {book.book_category}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 bg-black/20 rounded-2xl p-4">
-                    <Eye className="text-cyan-400" size={24} />
+                  <div className="flex items-center gap-3 bg-gray-100/40 dark:bg-black/40 rounded-2xl p-4">
+                    <Eye className="text-cyan-700 dark:text-cyan-400" size={24} />
                     <div>
-                      <p className="text-gray-400 text-sm">Reviews</p>
-                      <p className="text-white font-semibold">
+                      <p className="text-gray-700 dark:text-gray-400 text-sm">Reviews</p>
+                      <p className="text-gray-900 dark:text-white font-semibold">
                         {reviews.length}
                       </p>
                     </div>
@@ -225,16 +225,16 @@ const BookDetails = () => {
                 </div>
 
                 <div className="mb-8">
-                  <h3 className="text-xl font-bold text-white mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                     Overview
                   </h3>
-                  <p className="text-gray-300 leading-relaxed text-lg">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                     {book.book_overview}
                   </p>
                 </div>
 
-                <div className="bg-black/20 rounded-2xl p-6">
-                  <h4 className="text-lg font-semibold text-white mb-4">
+                <div className="bg-gray-100/40 dark:bg-black/40 rounded-2xl p-6">
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                     Added by
                   </h4>
                   <div className="flex items-center gap-4">
@@ -242,10 +242,10 @@ const BookDetails = () => {
                       <User className="text-white" size={24} />
                     </div>
                     <div>
-                      <p className="text-white font-semibold">
+                      <p className="text-gray-900 dark:text-white font-semibold">
                         {book?.name || "Anonymous"}
                       </p>
-                      <p className="text-gray-400 flex items-center gap-1">
+                      <p className="text-gray-700 dark:text-gray-400 flex items-center gap-1">
                         <Mail size={16} />
                         {book?.email || "N/A"}
                       </p>
@@ -257,16 +257,20 @@ const BookDetails = () => {
           </div>
 
           {/* Reviews Section */}
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
-            <h2 className="text-3xl font-bold text-white mb-6">Reviews</h2>
+          <div className="bg-white/20 dark:bg-gray-900/50 backdrop-blur-xl rounded-3xl p-8 border border-gray-300/20 dark:border-gray-700/30">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+              Reviews
+            </h2>
 
             {user && !hasReviewed && (
-              <div className="mb-8 bg-black/20 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4">
+              <div className="mb-8 bg-gray-100/40 dark:bg-black/40 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   Write a Review
                 </h3>
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-gray-300 font-medium">Rating:</span>
+                  <span className="text-gray-800 dark:text-gray-300 font-medium">
+                    Rating:
+                  </span>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -278,14 +282,12 @@ const BookDetails = () => {
                         className={`p-1 transition-colors duration-200 ${
                           star <= newReview.rating
                             ? "text-yellow-400"
-                            : "text-gray-600"
+                            : "text-gray-600 dark:text-gray-500"
                         }`}
                       >
                         <Star
                           size={24}
-                          className={
-                            star <= newReview.rating ? "fill-current" : ""
-                          }
+                          className={star <= newReview.rating ? "fill-current" : ""}
                         />
                       </button>
                     ))}
@@ -301,14 +303,14 @@ const BookDetails = () => {
                     }))
                   }
                   placeholder="Share your thoughts about this book..."
-                  className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-colors duration-300 resize-none"
+                  className="w-full p-4 bg-white/30 dark:bg-gray-800 border border-gray-400 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors duration-300 resize-none"
                   rows="4"
                 />
 
                 <button
                   onClick={handleSubmitReview}
                   disabled={isSubmitting || !newReview.review.trim()}
-                  className="mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="mt-4 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Send size={18} />
                   {isSubmitting ? "Posting..." : "Post Review"}
@@ -320,17 +322,17 @@ const BookDetails = () => {
               {reviews.map((review) => (
                 <div
                   key={review._id}
-                  className="bg-black/20 rounded-2xl p-6 border border-white/10"
+                  className="bg-gray-100/40 dark:bg-black/40 rounded-2xl p-6 border border-gray-300/20 dark:border-gray-700/30"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
                       <User className="text-white" size={20} />
                     </div>
                     <div>
-                      <p className="text-white font-semibold">
+                      <p className="text-gray-900 dark:text-white font-semibold">
                         {review.user.name}
                       </p>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-gray-700 dark:text-gray-400 text-sm">
                         {new Date(review.createdAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -343,12 +345,12 @@ const BookDetails = () => {
                         className={
                           star <= review.rating
                             ? "text-yellow-400 fill-current"
-                            : "text-gray-600"
+                            : "text-gray-600 dark:text-gray-500"
                         }
                       />
                     ))}
                   </div>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {review.review}
                   </p>
                 </div>

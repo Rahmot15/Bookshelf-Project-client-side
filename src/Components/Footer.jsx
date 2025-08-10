@@ -5,9 +5,11 @@ import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <div >
-
-      <footer className="footer sm:footer-horizontal  text-white p-10">
+    <footer
+      className="bg-gray-50 dark:bg-gray-900 shadow-inner border-t border-gray-200 dark:border-gray-700 py-12 px-6 transition-colors duration-500"
+    >
+      <div className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Logo and copyright */}
         <aside>
           <Link to={"/"}>
             <div className="flex items-center gap-2">
@@ -17,48 +19,111 @@ const Footer = () => {
               </h1>
             </div>
           </Link>
-          <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm select-none">
+            © {new Date().getFullYear()} BookStacker. All rights reserved.
+          </p>
         </aside>
+
+        {/* Services */}
         <nav>
-          <h6 className="footer-title">Services</h6>
-          <a className="link link-hover">Home Grown</a>
-          <a className="link link-hover">Design</a>
-          <a className="link link-hover">Gifts we love</a>
+          <h6 className="mb-5 text-lg font-semibold text-gray-800 dark:text-gray-200">
+            Services
+          </h6>
+          <ul className="space-y-3 text-gray-700 dark:text-gray-400">
+            <li>
+              <a
+                href="#"
+                className="hover:text-amber-600 transition-colors duration-300"
+              >
+                Home Grown
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="hover:text-amber-600 transition-colors duration-300"
+              >
+                Design
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="hover:text-amber-600 transition-colors duration-300"
+              >
+                Gifts we love
+              </a>
+            </li>
+          </ul>
         </nav>
+
+        {/* About */}
         <nav>
-          <h6 className="footer-title">About</h6>
-          <a className="link link-hover">Contact info</a>
-          <a className="link link-hover">Terms of use</a>
-          <a className="link link-hover">Privacy policy</a>
+          <h6 className="mb-5 text-lg font-semibold text-gray-800 dark:text-gray-200">
+            About
+          </h6>
+          <ul className="space-y-3 text-gray-700 dark:text-gray-400">
+            <li>
+              <a
+                href="#"
+                className="hover:text-amber-600 transition-colors duration-300"
+              >
+                Contact info
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="hover:text-amber-600 transition-colors duration-300"
+              >
+                Terms of use
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="hover:text-amber-600 transition-colors duration-300"
+              >
+                Privacy policy
+              </a>
+            </li>
+          </ul>
         </nav>
+
+        {/* Social */}
         <nav>
-          <h6 className="footer-title">Social</h6>
-          <div className="grid grid-flow-col gap-4">
+          <h6 className="mb-5 text-lg font-semibold text-gray-800 dark:text-gray-200">
+            Social
+          </h6>
+          <div className="flex space-x-6 text-gray-700 dark:text-gray-400">
             <a
               href="https://www.facebook.com/ar.rhmatulla"
               target="_blank"
-              className="hover:text-blue-600"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600 transition-colors duration-300"
             >
-              <FaFacebook size={24} />
+              <FaFacebook size={28} />
             </a>
             <a
               href="https://www.youtube.com/@RahmotCoder"
               target="_blank"
-              className="hover:text-red-700"
+              rel="noopener noreferrer"
+              className="hover:text-red-700 transition-colors duration-300"
             >
-              <FaYoutube size={26} />
+              <FaYoutube size={30} />
             </a>
             <a
               href="https://www.linkedin.com/in/md-rahmatullah-87a52b334/"
               target="_blank"
-              className="hover:text-blue-700"
+              rel="noopener noreferrer"
+              className="hover:text-blue-700 transition-colors duration-300"
             >
-              <IoLogoLinkedin size={24} />
+              <IoLogoLinkedin size={28} />
             </a>
           </div>
         </nav>
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 };
 

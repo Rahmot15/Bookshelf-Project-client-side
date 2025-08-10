@@ -23,11 +23,14 @@ const MyBooks = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://bookshelf-server-side.vercel.app/books/${id}?email=${user.email}`, {
-            headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-          })
+          .delete(
+            `https://bookshelf-server-side.vercel.app/books/${id}?email=${user.email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${user.accessToken}`,
+              },
+            }
+          )
           .then((res) => {
             if (res.data.deletedCount > 0) {
               const remaining = books.filter((b) => b._id !== id);
@@ -45,26 +48,28 @@ const MyBooks = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`https://bookshelf-server-side.vercel.app/myBooks?email=${user.email}`, {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-        })
+        .get(
+          `https://bookshelf-server-side.vercel.app/myBooks?email=${user.email}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        )
         .then((res) => setBooks(res.data))
         .catch(() => setBooks([]));
     }
   }, [user]);
 
   return (
-    <div >
-
+    <div>
       <div className="max-w-6xl mx-auto py-12">
         <div className="text-center">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl shadow-lg">
+            <div className="p-3 bg-secondary rounded-2xl shadow-lg">
               <BookOpen size={32} className="text-white" />
             </div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold text-secondary">
               My Book
             </h1>
           </div>
