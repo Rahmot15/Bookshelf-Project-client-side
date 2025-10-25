@@ -4,7 +4,7 @@ import { AuthContext } from "../Provider/AuthContext";
 import { Tooltip } from "react-tooltip";
 import { FaBookOpen } from "react-icons/fa";
 import { auth } from "../Firebase/firebase.init";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Clock } from "lucide-react";
 
 const Navbar = () => {
   const { user, signOutUser } = use(AuthContext);
@@ -189,25 +189,33 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/*  */}
               <Tooltip
                 anchorId="avatarTooltip"
                 place="bottom"
                 clickable
                 className="!max-w-xs !rounded-lg !p-4 !bg-white !text-gray-800 !shadow-lg"
               >
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <h3 className="text-xl font-semibold">{user.displayName}</h3>
                   <p className="text-lg text-gray-600">{user.email}</p>
+
+                  {/* Recently Viewed Link */}
+                  <Link
+                    to="/recently-viewed"
+                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                  >
+                    <Clock size={18} />
+                    <span>Recently Viewed</span>
+                  </Link>
+
                   <button
                     onClick={handleLogout}
-                    className="px-6 py-2 min-w-[120px] text-center text-white bg-primary border border-primary rounded active:text-primary hover:bg-transparent hover:text-primary focus:outline-none focus:ring w-full"
+                    className="px-6 py-2 min-w-[120px] text-center text-red-600 bg-transparent border-2 border-red-600 rounded-lg hover:bg-red-600 hover:text-white focus:outline-none focus:ring transition-all duration-200 w-full font-medium"
                   >
-                    logOut
+                    Logout
                   </button>
                 </div>
               </Tooltip>
-              {/*  */}
             </div>
           ) : (
             <Link

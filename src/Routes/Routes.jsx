@@ -13,6 +13,7 @@ import UpdateBook from "../Pages/UpdateBook";
 import NotFound from "../Pages/NotFound";
 import ProfilePage from "../Pages/ProfilePage";
 import Loading from "../Pages/Loading";
+import RecentlyViewedPage from "../Pages/RecentlyViewedPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ export const router = createBrowserRouter([
       {
         path: "/Bookshelf",
         Component: Bookshelf,
+      },
+      {
+        path: "/recently-viewed",
+        element: (
+          <PrivateRoute>
+            <RecentlyViewedPage />
+          </PrivateRoute>
+        ),
       },
 
       {

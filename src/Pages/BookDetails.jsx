@@ -66,6 +66,36 @@ const BookDetails = () => {
     }
   }, [book._id, user]);
 
+  // Save to recently viewed books in localStorage
+  useEffect(() => {
+    if (book && book._id) {
+      try {
+        const recentBooksKey = 'recentlyViewedBooks';
+        const existingBooks = JSON.parse(localStorage.getItem(recentBooksKey) || '[]');
+
+        // Create a simplified book object
+        const bookData = {
+          _id: book._id,
+          book_title: book.book_title,
+          cover_photo: book.cover_photo,
+          book_author: book.book_author,
+          book_category: book.book_category,
+          upvote: book.upvote || 0,
+        };
+
+        // Remove duplicate if exists
+        const filteredBooks = existingBooks.filter(b => b._id !== book._id);
+
+        // Add current book to the front and limit to 10 items
+        const updatedBooks = [bookData, ...filteredBooks].slice(0, 10);
+
+        localStorage.setItem(recentBooksKey, JSON.stringify(updatedBooks));
+      } catch (error) {
+        console.error('Failed to save to recently viewed:', error);
+      }
+    }
+  }, [book]);
+
   console.log("book", typeof book._id);
 
   const handleSubmitReview = async () => {
