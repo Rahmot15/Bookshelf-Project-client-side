@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.init";
 import { AuthContext } from "./AuthContext";
@@ -34,6 +35,14 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  const resetPassword = (email) => {
+    const actionCodeSettings = {
+      url: 'https://bookshelf-client-auth.web.app/auth/login',
+      handleCodeInApp: false,
+    };
+    return sendPasswordResetEmail(auth, email, actionCodeSettings);
+  };
+
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (users) => {
       setUser(users);
@@ -51,6 +60,7 @@ const AuthProvider = ({ children }) => {
     signInUser,
     signInGoogle,
     signOutUser,
+    resetPassword,
   };
   return <AuthContext value={userInfo}>{children}</AuthContext>;
 };

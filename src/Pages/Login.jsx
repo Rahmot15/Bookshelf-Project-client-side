@@ -10,11 +10,11 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  const { signInUser, signInGoogle } = use(AuthContext);
+  const { signInUser, signInGoogle, resetPassword } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -57,6 +57,70 @@ const Login = () => {
         console.log(error);
         toast.error("Login failed: " + error.message);
       });
+  };
+
+  const handleForgotPassword = async () => {
+    const { isConfirmed, value: email } = await Swal.fire({
+      title: "Reset Password",
+      input: "email",
+      inputLabel: "Enter your registered email address",
+      inputPlaceholder: "mail@site.com",
+      showCancelButton: true,
+      confirmButtonText: "Send Reset Link",
+      cancelButtonText: "Cancel",
+      inputValidator: (value) => {
+        if (!value) {
+          return "Please enter your email address";
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          return "Please enter a valid email address";
+        }
+      },
+    });
+
+    if (isConfirmed && email) {
+      try {
+        await resetPassword(email);
+        Swal.fire({
+          icon: "success",
+          title: "Reset Email Sent",
+          html: `
+            <p>A password reset link has been sent to:</p>
+            <p><strong>${email}</strong></p>
+            <br/>
+            <p><strong>Important:</strong></p>
+            <ul style="text-align: left; padding-left: 40px;">
+              <li>Check your inbox and spam/junk folder</li>
+              <li>The link will expire in 1 hour</li>
+              <li>If you don't receive it within 5 minutes, try again</li>
+              <li>Make sure this email is registered with your account</li>
+            </ul>
+          `,
+          confirmButtonText: "OK",
+          width: '600px',
+        });
+      } catch (error) {
+        console.log(error);
+
+        let errorMessage = "Failed to send reset email";
+
+        if (error.code === "auth/user-not-found") {
+          errorMessage = "No account found with this email address";
+        } else if (error.code === "auth/invalid-email") {
+          errorMessage = "Invalid email address format";
+        } else if (error.code === "auth/too-many-requests") {
+          errorMessage = "Too many attempts. Please try again later";
+        }
+
+        Swal.fire({
+          icon: "error",
+          title: "Reset Failed",
+          text: errorMessage,
+          confirmButtonText: "Try Again",
+        });
+      }
+    }
   };
 
   return (
@@ -152,7 +216,13 @@ const Login = () => {
                   At least one uppercase letter
                 </p>
                 <div>
-                  <a className="link link-hover text-gray-300">Forgot password?</a>
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="link link-hover text-gray-300"
+                  >
+                    Forgot password?
+                  </button>
                 </div>
                 <button type="submit" className="btn btn-info mt-4">
                   Login
