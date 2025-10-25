@@ -236,7 +236,7 @@ const BookDetails = () => {
     try {
       setIsSubmitting(true);
       await axios.put(
-        `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews/${reviewId}`,
+        `https://bookshelf-project-server-side.vercel.app/books/${book._id}/reviews/${reviewId}`,
         {
           review: editReview.review,
           rating: editReview.rating,
@@ -250,7 +250,7 @@ const BookDetails = () => {
 
       // Refresh reviews
       const res = await axios.get(
-        `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews`
+        `https://bookshelf-project-server-side.vercel.app/books/${book._id}/reviews`
       );
       setReviews(res.data);
       setEditingReviewId(null);
@@ -292,7 +292,7 @@ const BookDetails = () => {
     if (result.isConfirmed) {
       try {
         await axios.delete(
-          `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews/${reviewId}`,
+          `https://bookshelf-project-server-side.vercel.app/books/${book._id}/reviews/${reviewId}`,
           {
             headers: {
               Authorization: `Bearer ${user.accessToken}`,
@@ -302,7 +302,7 @@ const BookDetails = () => {
 
         // Refresh reviews
         const res = await axios.get(
-          `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews`
+          `https://bookshelf-project-server-side.vercel.app/books/${book._id}/reviews`
         );
         setReviews(res.data);
         setHasReviewed(false);
