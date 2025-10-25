@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   ArrowLeft,
   User,
@@ -32,6 +32,34 @@ const BookDetails = () => {
   const handleBack = () => {
     window.history.back();
   };
+
+  // Fetch reviews on component mount
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await axios.get(
+          `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews`
+        );
+        setReviews(res.data);
+
+        // Check if current user has already reviewed
+        if (user) {
+          const userReview = res.data.find(
+            (review) => review.user.email === user.email
+          );
+          if (userReview) {
+            setHasReviewed(true);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews", error);
+      }
+    };
+
+    if (book._id) {
+      fetchReviews();
+    }
+  }, [book._id, user]);
 
   console.log("book", typeof book._id);
 
@@ -67,12 +95,29 @@ const BookDetails = () => {
       setReviews(res.data);
       setHasReviewed(true);
       setNewReview({ rating: 5, review: "" });
+
+      Swal.fire({
+        icon: "success",
+        title: "Review Posted",
+        text: "Your review has been added successfully.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (error) {
       if (error.response?.status === 409) {
-        Swal.fire("You have already reviewed this book.");
+        Swal.fire({
+          icon: "warning",
+          title: "Already Reviewed",
+          text: "You have already reviewed this book.",
+        });
         setHasReviewed(true);
       } else {
         console.error("Failed to submit review", error);
+        Swal.fire({
+          icon: "error",
+          title: "Review Failed",
+          text: error.response?.data?.message || "Failed to submit review. Please try again.",
+        });
       }
     } finally {
       setIsSubmitting(false);
@@ -84,27 +129,59 @@ const BookDetails = () => {
       try {
         setUpvotes((prev) => prev + 1);
         await axios.patch(
-          `https://bookshelf-server-side.vercel.app/books/${book._id}/upvote`
+          `https://bookshelf-server-side.vercel.app/books/${book._id}/upvote?email=${user.email}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
         );
       } catch (error) {
         console.error("Upvote failed", error);
+        setUpvotes((prev) => prev - 1);
+        Swal.fire({
+          icon: "error",
+          title: "Upvote Failed",
+          text: "Failed to upvote. Please try again.",
+        });
       }
     }
   };
 
   // Reading status update handler
   const handleStatusUpdate = async (nextStatus) => {
+    if (!user) return;
+
     try {
       setStatus(nextStatus);
       await axios.patch(
-        `https://bookshelf-server-side.vercel.app/books/${book._id}/status`,
+        `https://bookshelf-server-side.vercel.app/books/${book._id}/status?email=${user.email}`,
         {
           reading_status: nextStatus,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
         }
       );
+
+      Swal.fire({
+        icon: "success",
+        title: "Status Updated",
+        text: `Book marked as ${nextStatus}`,
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (error) {
       setStatus(book.reading_status);
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: "Failed to update reading status.",
+      });
     }
   };
 
@@ -319,42 +396,48 @@ const BookDetails = () => {
             )}
 
             <div className="space-y-6">
-              {reviews.map((review) => (
-                <div
-                  key={review._id}
-                  className="bg-gray-100/40 dark:bg-black/40 rounded-2xl p-6 border border-gray-300/20 dark:border-gray-700/30"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
-                      <User className="text-white" size={20} />
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <div
+                    key={review._id}
+                    className="bg-gray-100/40 dark:bg-black/40 rounded-2xl p-6 border border-gray-300/20 dark:border-gray-700/30"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+                        <User className="text-white" size={20} />
+                      </div>
+                      <div>
+                        <p className="text-gray-900 dark:text-white font-semibold">
+                          {review.user.name}
+                        </p>
+                        <p className="text-gray-700 dark:text-gray-400 text-sm">
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-gray-900 dark:text-white font-semibold">
-                        {review.user.name}
-                      </p>
-                      <p className="text-gray-700 dark:text-gray-400 text-sm">
-                        {new Date(review.createdAt).toLocaleDateString()}
-                      </p>
+                    <div className="flex gap-1 mb-3">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          size={18}
+                          className={
+                            star <= review.rating
+                              ? "text-yellow-400 fill-current"
+                              : "text-gray-600 dark:text-gray-500"
+                          }
+                        />
+                      ))}
                     </div>
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                      {review.review}
+                    </p>
                   </div>
-                  <div className="flex gap-1 mb-3">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        size={18}
-                        className={
-                          star <= review.rating
-                            ? "text-yellow-400 fill-current"
-                            : "text-gray-600 dark:text-gray-500"
-                        }
-                      />
-                    ))}
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {review.review}
-                  </p>
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  <p>No reviews yet. Be the first to review this book!</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>

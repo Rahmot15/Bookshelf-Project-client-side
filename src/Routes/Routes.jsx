@@ -71,9 +71,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/bookDetails/:id",
+        element: (
+          <PrivateRoute>
+            <BookDetails />
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(`https://bookshelf-server-side.vercel.app/books/${params.id}`),
-        Component: BookDetails,
       },
     ],
   },
