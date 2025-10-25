@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BookCard from "../Components/BookCard";
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import BackgroundWrapper from "../Components/Share/BackgroundWrapper";
 
 const Bookshelf = () => {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(8);
 
   useEffect(() => {
     axios
@@ -24,6 +26,54 @@ const Bookshelf = () => {
     const matchStatus = status ? book.reading_status === status : true;
     return matchSearch && matchStatus;
   });
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredBooks.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedBooks = filteredBooks.slice(startIndex, endIndex);
+
+  // Reset to page 1 when search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, status, pageSize]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push('...');
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
 
   return (
     <div>
@@ -68,8 +118,8 @@ const Bookshelf = () => {
             </div>
           </div>
 
-          {/* Search & Filter Bar */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
+          {/* Search, Filter & Page Size Bar */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             {/* Search Bar */}
             <div className="relative w-full md:w-1/2 group">
               {/* Gradient blur background on hover */}
@@ -126,10 +176,30 @@ const Bookshelf = () => {
             </div>
           </div>
 
+          {/* Results count and Page Size Selector */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+            <div className="text-base-content/70">
+              Showing {filteredBooks.length > 0 ? startIndex + 1 : 0} - {Math.min(endIndex, filteredBooks.length)} of {filteredBooks.length} books
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="text-base-content/70 text-sm">Books per page:</label>
+              <select
+                className="py-2 px-3 border border-white/30 dark:border-gray-700/70 rounded-xl bg-transparent focus:outline-none focus:border-purple-500/70 transition-all duration-300"
+                value={pageSize}
+                onChange={(e) => setPageSize(Number(e.target.value))}
+              >
+                <option value={8} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">8</option>
+                <option value={12} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">12</option>
+                <option value={16} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">16</option>
+                <option value={24} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">24</option>
+              </select>
+            </div>
+          </div>
+
           {/* Books Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {filteredBooks.length > 0 ? (
-              filteredBooks.map((book) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+            {paginatedBooks.length > 0 ? (
+              paginatedBooks.map((book) => (
                 <BookCard key={book._id} book={book} />
               ))
             ) : (
@@ -138,6 +208,54 @@ const Bookshelf = () => {
               </div>
             )}
           </div>
+
+          {/* Pagination Controls */}
+          {filteredBooks.length > 0 && totalPages > 1 && (
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+              {/* Previous Button */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-xl border border-white/30 dark:border-gray-700/70 hover:bg-purple-500/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2"
+              >
+                <ChevronLeft size={18} />
+                Previous
+              </button>
+
+              {/* Page Numbers */}
+              <div className="flex items-center gap-2 flex-wrap justify-center">
+                {getPageNumbers().map((page, index) => (
+                  page === '...' ? (
+                    <span key={`ellipsis-${index}`} className="px-3 py-2 text-base-content/70">
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-4 py-2 rounded-xl border transition-all duration-300 ${
+                        currentPage === page
+                          ? 'bg-primary text-white border-primary'
+                          : 'border-white/30 dark:border-gray-700/70 hover:bg-purple-500/10'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  )
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-xl border border-white/30 dark:border-gray-700/70 hover:bg-purple-500/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2"
+              >
+                Next
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          )}
 
           {/* Empty state */}
           {books.length === 0 && (
