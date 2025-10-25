@@ -9,6 +9,9 @@ import {
   ThumbsUp,
   Star,
   Send,
+  Edit2,
+  Trash2,
+  X,
 } from "lucide-react";
 import { AuthContext } from "../Provider/AuthContext";
 import { Link, useLoaderData } from "react-router";
@@ -26,6 +29,8 @@ const BookDetails = () => {
   const [newReview, setNewReview] = useState({ rating: 5, review: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [editReview, setEditReview] = useState({ rating: 5, review: "" });
 
   const isOwnBook = user?.email === book?.email;
 
@@ -182,6 +187,111 @@ const BookDetails = () => {
         title: "Update Failed",
         text: "Failed to update reading status.",
       });
+    }
+  };
+
+  const handleEditReview = (review) => {
+    setEditingReviewId(review._id);
+    setEditReview({ rating: review.rating, review: review.review });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingReviewId(null);
+    setEditReview({ rating: 5, review: "" });
+  };
+
+  const handleUpdateReview = async (reviewId) => {
+    if (!user || !editReview.review.trim()) return;
+
+    try {
+      setIsSubmitting(true);
+      await axios.put(
+        `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews/${reviewId}`,
+        {
+          review: editReview.review,
+          rating: editReview.rating,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      );
+
+      // Refresh reviews
+      const res = await axios.get(
+        `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews`
+      );
+      setReviews(res.data);
+      setEditingReviewId(null);
+      setEditReview({ rating: 5, review: "" });
+
+      Swal.fire({
+        icon: "success",
+        title: "Review Updated",
+        text: "Your review has been updated successfully.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Failed to update review", error);
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: error.response?.data?.message || "Failed to update review. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    if (!user) return;
+
+    const result = await Swal.fire({
+      title: "Delete Review?",
+      text: "Are you sure you want to delete this review? This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(
+          `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews/${reviewId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        );
+
+        // Refresh reviews
+        const res = await axios.get(
+          `https://bookshelf-server-side.vercel.app/books/${book._id}/reviews`
+        );
+        setReviews(res.data);
+        setHasReviewed(false);
+
+        Swal.fire({
+          icon: "success",
+          title: "Deleted",
+          text: "Your review has been deleted.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Failed to delete review", error);
+        Swal.fire({
+          icon: "error",
+          title: "Delete Failed",
+          text: error.response?.data?.message || "Failed to delete review. Please try again.",
+        });
+      }
     }
   };
 
@@ -397,42 +507,136 @@ const BookDetails = () => {
 
             <div className="space-y-6">
               {reviews.length > 0 ? (
-                reviews.map((review) => (
-                  <div
-                    key={review._id}
-                    className="bg-gray-100/40 dark:bg-black/40 rounded-2xl p-6 border border-gray-300/20 dark:border-gray-700/30"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
-                        <User className="text-white" size={20} />
+                reviews.map((review) => {
+                  const isOwnReview = user && review.user.email === user.email;
+                  const isEditing = editingReviewId === review._id;
+
+                  return (
+                    <div
+                      key={review._id}
+                      className="bg-gray-100/40 dark:bg-black/40 rounded-2xl p-6 border border-gray-300/20 dark:border-gray-700/30"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+                            <User className="text-white" size={20} />
+                          </div>
+                          <div>
+                            <p className="text-gray-900 dark:text-white font-semibold">
+                              {review.user.name}
+                            </p>
+                            <p className="text-gray-700 dark:text-gray-400 text-sm">
+                              {new Date(review.createdAt).toLocaleDateString()}
+                              {review.updatedAt && " (edited)"}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Edit/Delete buttons for own review */}
+                        {isOwnReview && !isEditing && (
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleEditReview(review)}
+                              className="p-2 hover:bg-blue-500/10 rounded-lg transition-colors"
+                              title="Edit review"
+                            >
+                              <Edit2 size={18} className="text-blue-600 dark:text-blue-400" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteReview(review._id)}
+                              className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
+                              title="Delete review"
+                            >
+                              <Trash2 size={18} className="text-red-600 dark:text-red-400" />
+                            </button>
+                          </div>
+                        )}
                       </div>
-                      <div>
-                        <p className="text-gray-900 dark:text-white font-semibold">
-                          {review.user.name}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-400 text-sm">
-                          {new Date(review.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
+
+                      {isEditing ? (
+                        // Edit mode
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-4">
+                            <span className="text-gray-800 dark:text-gray-300 font-medium">
+                              Rating:
+                            </span>
+                            <div className="flex gap-1">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                  key={star}
+                                  type="button"
+                                  onClick={() =>
+                                    setEditReview((prev) => ({ ...prev, rating: star }))
+                                  }
+                                  className={`p-1 transition-colors duration-200 ${
+                                    star <= editReview.rating
+                                      ? "text-yellow-400"
+                                      : "text-gray-600 dark:text-gray-500"
+                                  }`}
+                                >
+                                  <Star
+                                    size={20}
+                                    className={star <= editReview.rating ? "fill-current" : ""}
+                                  />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          <textarea
+                            value={editReview.review}
+                            onChange={(e) =>
+                              setEditReview((prev) => ({
+                                ...prev,
+                                review: e.target.value,
+                              }))
+                            }
+                            className="w-full p-4 bg-white/30 dark:bg-gray-800 border border-gray-400 dark:border-gray-600 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors duration-300 resize-none"
+                            rows="3"
+                          />
+
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={() => handleUpdateReview(review._id)}
+                              disabled={isSubmitting || !editReview.review.trim()}
+                              className="px-4 py-2 text-white bg-primary border border-primary hover:bg-transparent hover:text-primary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                            >
+                              <Send size={16} />
+                              {isSubmitting ? "Updating..." : "Update"}
+                            </button>
+                            <button
+                              onClick={handleCancelEdit}
+                              className="px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-lg hover:bg-gray-500/10 flex items-center gap-2"
+                            >
+                              <X size={16} />
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        // View mode
+                        <>
+                          <div className="flex gap-1 mb-3">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                size={18}
+                                className={
+                                  star <= review.rating
+                                    ? "text-yellow-400 fill-current"
+                                    : "text-gray-600 dark:text-gray-500"
+                                }
+                              />
+                            ))}
+                          </div>
+                          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                            {review.review}
+                          </p>
+                        </>
+                      )}
                     </div>
-                    <div className="flex gap-1 mb-3">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          size={18}
-                          className={
-                            star <= review.rating
-                              ? "text-yellow-400 fill-current"
-                              : "text-gray-600 dark:text-gray-500"
-                          }
-                        />
-                      ))}
-                    </div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                      {review.review}
-                    </p>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   <p>No reviews yet. Be the first to review this book!</p>
